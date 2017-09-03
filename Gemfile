@@ -12,6 +12,8 @@ gem 'twitter-bootstrap-rails'
 
 gem 'devise-bootstrap-views'
 
+gem 'stock_quote'
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.20.0'
 # Use SCSS for stylesheets
