@@ -1,0 +1,19 @@
+= form_tag search_stocks_path, remote: true, method: :get, id: 'stock-form' do
+  .form-group.row.no-padding.text-center.col-md-12
+    .col-md-10
+      = text_field_tag :stock, params[:stock], placeholder: 'Put a ticker here', autofocus: true, class: 'form-control search-box input-lg'
+    .col-md-2
+      = button_tag(type: :submit, class: 'btn btn-la btn-default') do
+        %i.fa.fa-search
+        Search Stock
+
+- if @stock
+  #search-stock-results.well.results-block
+    %strong Symbol:
+    = @stock.ticker
+    %strong Name:
+    = @stock.name
+    %strong Price:
+    = @stock.price
+
+
