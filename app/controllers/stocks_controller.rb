@@ -6,7 +6,7 @@ class StocksController < ApplicationController
     end
 
     if @stock
-      render template: 'stocks/search'
+      render partial: 'form'
     else
       render status: :not_found, nothing: true
     end
