@@ -24,14 +24,31 @@ class UserStocksController < ApplicationController
   # POST /user_stocks
   # POST /user_stocks.json
   def create
-    @user_stock = UserStock.new(user_stock_params)
+    if params[:stock_id].present?
+      @user_stock = UserStock.new(stock_id: params[:stock_id], user: current_user)
+    else
+      stock = Stock.find_by_ticker(params[:stock_ticker])
+      if stock
+        @user_stock = UserStock.new(user: current_user, stock: stock)
+      else
+        stock = Stock.retrieve_from_api(params[:stock_ticker])
+        if stock.save
+          @user_stock = UserStock.new(user: current_user, stock: stock)
+        else
+          @user_stock = nil
+          flash[:error] = 'Stock not available. Try again later'
+        end
+      end
+    end
 
     respond_to do |format|
       if @user_stock.save
-        format.html { redirect_to @user_stock, notice: 'User stock was successfully created.' }
+        format.html {
+          redirect_to my_stocks_path,
+          notice: "Stock #{@user_stock.stock.ticker} was successfully added to your tracked stocks." }
         format.json { render :show, status: :created, location: @user_stock }
       else
-        format.html { render :new }
+        format.html { render :edit }
         format.json { render json: @user_stock.errors, status: :unprocessable_entity }
       end
     end
@@ -42,7 +59,7 @@ class UserStocksController < ApplicationController
   def update
     respond_to do |format|
       if @user_stock.update(user_stock_params)
-        format.html { redirect_to @user_stock, notice: 'User stock was successfully updated.' }
+        format.html { redirect_to @user_stock, notice: 'Stock was successfully updated.' }
         format.json { render :show, status: :ok, location: @user_stock }
       else
         format.html { render :edit }
