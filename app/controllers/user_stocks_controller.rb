@@ -45,7 +45,7 @@ class UserStocksController < ApplicationController
       if @user_stock.save
         format.html {
           redirect_to my_stocks_path,
-          notice: "Stock #{@user_stock.stock.ticker} was successfully added to your tracked stocks." }
+          notice: "#{@user_stock.stock.ticker} was successfully added to your tracked stocks." }
         format.json { render :show, status: :created, location: @user_stock }
       else
         format.html { render :edit }

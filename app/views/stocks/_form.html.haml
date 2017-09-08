@@ -17,8 +17,17 @@
       = @stock.name
       %strong Price:
       = @stock.price
-      = link_to 'Add to my stocks', user_stocks_path(user: current_user, stock_ticker: @stock.ticker,
-      stock_id: @stock.id ? @stock.id : ''), class: 'btn btn-xs btn-success', method: :post
+      - if current_user.can_add_stock?(@stock.ticker)
+        = link_to 'Add to my stocks', user_stocks_path(user: current_user, stock_ticker: @stock.ticker,
+          stock_id: @stock.id ? @stock.id : ''), class: 'btn btn-xs btn-success', method: :post
+      - else
+        %span.label.label-default
+          You can't add stock because you
+          - if !current_user.under_stock_limit?
+            have already have 15 stocks.
+          - if current_user.stock_already_added?(@stock.ticker)
+            have already added this stock.
+
 
   #search-stock-errors
 
