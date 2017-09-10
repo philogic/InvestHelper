@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registration: 'user/registrations' }
   resources :user_stocks, except: [:show, :edit, :update]
   get 'stocks/search'
 
