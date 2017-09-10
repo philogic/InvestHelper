@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registration: 'user/registrations' }
-  resources :user_stocks, except: [:show, :edit, :update]
+  devise_for :users
+  resources :user_stocks, except: %i[show edit update]
   get 'stocks/search'
 
   get 'my_stocks', to: 'users#my_stocks'
