@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, on: :create
   validates :last_name, presence: true, on: :create
 
-
-
   has_many :user_stocks
   has_many :stocks, through: :user_stocks
+  has_many :friendships
+  has_many :friends, through: :friendships
 
   def name
     "#{first_name} #{last_name}"
