@@ -4,7 +4,7 @@
       %th Name
       %th Symbol
       %th Price
-      - if current_user
+      - if @user.id == current_user.id
         %th Actions
   %tbody
     - @user_stocks.each do |user_stock|
@@ -15,7 +15,7 @@
           = user_stock.ticker
         %td
           = user_stock.last_price
-        - if current_user
+        - if @user.id == current_user.id
           %td
             = link_to 'Delete', user_stock_path(user_stock),
                               method: :delete, data: { confirm: 'Are you sure?' },

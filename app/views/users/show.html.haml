@@ -1,0 +1,19 @@
+%h2 User profile
+
+%dl.dl-horizontal
+  %dt
+    %strong Name
+  %dd
+    = @user.name
+  %dt
+    %strong Email
+  %dd
+    = @user.email
+
+- if @user.stocks.size > 0
+  = render 'stocks/list'
+- else
+  %p.lead
+    No stocks tracked by this user
+
+= link_to 'Back', my_friends_path, class: 'btn btn-primary'
