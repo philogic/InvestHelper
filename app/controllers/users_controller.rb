@@ -7,9 +7,10 @@ class UsersController < ApplicationController
     @friendships = current_user.friends
   end
 
-  def search_friends
-    @users = User.search(params{:search_param})
+  def search
+    @users = User.search(params[:search_param])
     if @users
+      @users = current_user.not_me(@users)
       render partial: 'friends/form'
     else
       render status: :not_found, nothing: true
@@ -17,8 +18,8 @@ class UsersController < ApplicationController
   end
 
   def add_friend
-    @friend = User.find(params[:id])
-    current_user.friendships.build(@friend.id)
+    @friend = User.find(params[:friend])
+    current_user.friendships.build(friend_id: @friend.id)
 
     if current_user.save
       redirect_to my_friends_path, notice: 'Friend added'

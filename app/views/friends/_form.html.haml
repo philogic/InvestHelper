@@ -3,41 +3,38 @@
   = form_tag search_friends_path, remote: true, method: :get, id: 'friend-form' do
     .form-group.row.no-padding.text-center.col-md-12
       .col-md-10
-        = text_field_tag :search_param, params[:search_param],
-                                placeholder: 'Put name or email here', autofocus: true,
-                                class: 'form-control search-box input-lg'
+        = text_field_tag :search_param, params[:search_param],            |
+          placeholder: 'Put name or email here', autofocus: true, |
+          class: 'form-control search-box input-lg'
       .col-md-2
-        = button_tag(type: :submit, class: 'btn btn-lg btn-default') do
+        = button_tag(type: :submit, class: 'btn btn-lg btn-success') do
           %i.fa.fa-search
           Search friend
   = render 'shared/spinner'
   - if @users
     - if @users.size > 0
-      #search-friend-results.well.results-block
+      #search-friend-results.well.results-block.col-md-10
         %table.search-results-table.col-md-12
           %tbody
             - @users.each do |user|
-            %tr
-              %td
-                %strong Name:
-                = user.name
-              %td
-                %strong Email:
-                = user.email
-              %td
-                %strong
-                  Profile:
-                  = link_to 'View profile', user_path(user), class: 'btn btn-xs btn-success'
-
-                - if current_user.not_friends_with?(user.id)
-                  = link_to 'Add friend', add_friend_path(user: current_user, friend: user),
-                                          class: 'btn btn-xs btn-success'
-                - else
-                  %span.label.label-primary
-                    You are already friends
-
+              %tr
+                %td
+                  %strong Name:
+                  = user.name
+                %td
+                  %strong Email:
+                  = user.email
+                %td
+                  %strong Profile:
+                  = link_to 'View Profile', user_path(user), |
+                    class: "btn btn-xs btn-success"
+                  - if current_user.not_friends_with?(user.id)
+                    = link_to 'Add friend', add_friend_path(user: current_user, friend: user), |
+                      class: "btn btn-xs btn-success", method: :post
+                  - else
+                    %span.label.label-primary
+                      You are already friends
     - else
       %p.lead.col-md-12
         No users found. Sorry.
-
   #search-friend-errors
